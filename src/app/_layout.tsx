@@ -32,7 +32,7 @@ export default function RootLayout() {
         <SplashScreenController />
         <RootNavigator />
         <StatusBar style="auto" />
-      </AuthProvider>
+    </AuthProvider>
     
   )
 }
