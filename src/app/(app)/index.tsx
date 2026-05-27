@@ -1,15 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { supabase } from '../../lib/supabase';
+import SignOutButton from '@/components/SignOutButton';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function Index() {
     return (
         <View style={styles.container}>
             <Text>Welcome to the Home Screen!</Text>
-            <TouchableOpacity
-              onPress={() => supabase.auth.signOut()}
-            >
-              <Text>Sign Out</Text>
-            </TouchableOpacity>
+            <SignOutButton />
          </View>
     );
 }

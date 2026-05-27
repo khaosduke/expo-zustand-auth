@@ -2,14 +2,14 @@ import { createContext, useContext } from 'react'
 
 export type AuthData = {
   claims?: Record<string, any> | null
-  profile?: any | null
+  hasSession: boolean
   isLoading: boolean
   isLoggedIn: boolean
 }
 
 export const AuthContext = createContext<AuthData>({
   claims: undefined,
-  profile: undefined,
+  hasSession: false,
   isLoading: true,
   isLoggedIn: false,
 })
