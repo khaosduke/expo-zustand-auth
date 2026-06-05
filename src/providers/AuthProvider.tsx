@@ -1,16 +1,21 @@
 import { AuthContext } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
-import { PropsWithChildren, useEffect, useState } from 'react'
+import { PropsWithChildren, useEffect } from 'react'
+import { useAuthStore } from '../features/auth/AuthStore'
 
 export default function AuthProvider({ children }: PropsWithChildren) {
-  const [claims, setClaims] = useState<Record<string, any> | undefined | null>()
-  const [hasSession, setHasSession] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-
+  //const [claims, setClaims] = useState<Record<string, any> | undefined | null>()
+  //const [hasSession, setHasSession] = useState<boolean>(false)
+  //const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [claims, setClaims] = useAuthStore((state) => [state.claims, state.setClaims])
   // Fetch the claims once, and subscribe to auth state changes
   useEffect(() => {
+    const state = useAuthStore.getState().state
+    console.log('AuthProvider useEffect running, current auth phase:', { state })
+
     const fetchClaims = async () => {
-      setIsLoading(true)
+      //setIsLoading(true)
+      useAuthStore.getState().setState("loadingClaims")
 
       const { data, error } = await supabase.auth.getClaims()
 
@@ -19,7 +24,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       }
 
       setClaims(data?.claims ?? null)
-      setIsLoading(false)
+      //setIsLoading(false)
+      useAuthStore.getState().setState("signedInReady")
     }
 
     fetchClaims()
@@ -28,13 +34,11 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         if (error) {
             console.error('Error fetching claims:', error)
             setClaims(null)
-            setHasSession(false)
-            setIsLoading(false)
+            useAuthStore.getState().setState("signedOut")
             return
         }
         setClaims(data?.claims ?? null)
-        setHasSession(true)
-        setIsLoading(false)
+        useAuthStore.getState().setState("signedInReady")
     }
 
     const {
@@ -46,8 +50,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
                 //console.log('Updated claims:', { claims: data?.claims })
                  if (!_session) {
                     setClaims(null);
-                    setHasSession(false);
-                    setIsLoading(false);
+                    useAuthStore.getState().setState("signedOut")
                     console.log('No active session');
                     return;
                 }
