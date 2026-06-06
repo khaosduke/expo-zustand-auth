@@ -9,8 +9,6 @@ import { useColorScheme } from 'react-native'
 
 // Separate RootNavigator so we can access the AuthContext
 function RootNavigator() {
-  //const { isLoggedIn, hasSession } = useAuthContext()
-  //const { signOut } = useAuth()
   const authState = useAuthStore((state) => state.state)
 
   if (

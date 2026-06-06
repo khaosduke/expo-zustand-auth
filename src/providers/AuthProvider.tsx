@@ -4,18 +4,14 @@ import { PropsWithChildren, useEffect } from 'react'
 import { useAuthStore } from '../features/auth/AuthStore'
 
 export default function AuthProvider({ children }: PropsWithChildren) {
-  //const [claims, setClaims] = useState<Record<string, any> | undefined | null>()
-  //const [hasSession, setHasSession] = useState<boolean>(false)
-  //const [isLoading, setIsLoading] = useState<boolean>(true)
-  //const [claims, setClaims] = useAuthStore((state) => [state.claims, state.setClaims])
   const setClaims = useAuthStore((state) => state.setClaims)
+
   // Fetch the claims once, and subscribe to auth state changes
   useEffect(() => {
     const state = useAuthStore.getState().state
     console.log('AuthProvider useEffect running, current auth phase:', { state })
 
     const fetchClaims = async () => {
-      //setIsLoading(true)
       useAuthStore.getState().setState("loadingClaims")
 
       const { data, error } = await supabase.auth.getClaims()
@@ -25,7 +21,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       }
 
       setClaims(data?.claims ?? null)
-      //setIsLoading(false)
       useAuthStore.getState().setState("signedInReady")
     }
 
@@ -46,9 +41,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
             data: { subscription },
         } = supabase.auth.onAuthStateChange(async (_event, _session) => {
                 console.log('Auth state changed:', { event: _event })
-                //const { data } = await supabase.auth.getClaims()
-                //setClaims(data?.claims ?? null)
-                //console.log('Updated claims:', { claims: data?.claims })
                  if (!_session) {
                     setClaims(null);
                     useAuthStore.getState().setState("signedOut")
@@ -56,21 +48,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
                     return;
                 }
                 console.log('Active session detected, fetching claims...')
-                /*try {
-                    const { data, error } = await supabase.auth.getClaims();
-                    console.log('Claims fetch result:', { data, error });
-                    if (error) {
-                    console.error("Error fetching claims:", error);
-                    setClaims(null);
-                    return;
-                    }
-
-                    setClaims(data?.claims ?? null);
-                    setHasSession(true);
-                    console.log("Claims updated:", { claims: data?.claims });
-                } finally {
-                    setIsLoading(false);
-                }*/
+              
                 void loadClaims()
                
 
