@@ -1,14 +1,15 @@
-import { useAuthContext } from '@/contexts/AuthContext'
+//import { useAuthContext } from '@/contexts/AuthContext'
 import { SplashScreen } from 'expo-router'
 import { Text } from 'react-native'
+import { useAuthStore } from '../features/auth/AuthStore'
 
 
 SplashScreen.preventAutoHideAsync()
 
 export function SplashScreenController() {
-  const { isLoading, isLoggedIn } = useAuthContext()
+  const state = useAuthStore((state) => state.state)
 
-  if (!isLoading) {
+  if (state === "booting" || state === "loadingClaims" || state === "signedInNoClaims") {
     SplashScreen.hideAsync()
   }
 

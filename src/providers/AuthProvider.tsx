@@ -7,7 +7,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   //const [claims, setClaims] = useState<Record<string, any> | undefined | null>()
   //const [hasSession, setHasSession] = useState<boolean>(false)
   //const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [claims, setClaims] = useAuthStore((state) => [state.claims, state.setClaims])
+  //const [claims, setClaims] = useAuthStore((state) => [state.claims, state.setClaims])
+  const setClaims = useAuthStore((state) => state.setClaims)
   // Fetch the claims once, and subscribe to auth state changes
   useEffect(() => {
     const state = useAuthStore.getState().state
@@ -82,16 +83,15 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     }
   }, [])
 
+  //Provide a signout function that can be used by the app
+    const signOut = async () => {
+      await supabase.auth.signOut()
+      setClaims(null)
+      useAuthStore.getState().setState("signedOut")
+    }
 
   return (
-    <AuthContext.Provider
-      value={{
-        claims,
-        hasSession,
-        isLoading,
-        isLoggedIn: claims != undefined,
-      }}
-    >
+    <AuthContext.Provider value={{ signOut }}>
       {children}
     </AuthContext.Provider>
   )
