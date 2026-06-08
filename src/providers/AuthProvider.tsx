@@ -112,6 +112,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         }
         store.setClaims(data?.claims ?? null)
         store.setState("signedInReady")
+        console.log('AUTH STATE CHANGE:', useAuthStore.getState().state)
     }
    
       const bootstrap = async () => {
@@ -141,12 +142,14 @@ export default function AuthProvider({ children }: PropsWithChildren) {
                  if (!_session) {
                     store.reset()
                     console.log('No active session');
+                    console.log('AUTH STATE CHANGE:', useAuthStore.getState().state)
                     return;
                 }
                 console.log('Active session detected, fetching claims...')
                 store.setUser(_session.user)
                 store.setClaims(null)
                 store.setState("signedInNoClaims")
+                console.log('AUTH STATE CHANGE:', useAuthStore.getState().state)
                 void loadClaims()
 
     })
