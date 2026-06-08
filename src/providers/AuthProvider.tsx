@@ -94,10 +94,6 @@ import { useAuthStore } from '../features/auth/AuthStore'
  * - Route guards should only allow protected routes when state is
  *   "signedInReady".
  */
-
-
-
-//Only AuthProvider should be setting zustands state, and it should be based on the supabase auth state and claims. The AuthContext is only for providing the signOut function to the app, which will trigger the auth state change and cause the zustand state to update accordingly. This way we have a single source of truth for the auth state (the zustand store) that is kept in sync with supabase auth state changes.
 export default function AuthProvider({ children }: PropsWithChildren) {
   // Fetch the claims once, and subscribe to auth state changes
   useEffect(() => {
@@ -130,9 +126,10 @@ export default function AuthProvider({ children }: PropsWithChildren) {
           return;
         }
 
-        store.setState("signedInNoClaims");
         store.setUser(data.session.user)
         store.setClaims(null)
+        store.setState("signedInNoClaims");
+        
         await loadClaims();
       }
 
@@ -149,6 +146,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
                 console.log('Active session detected, fetching claims...')
                 store.setUser(_session.user)
                 store.setClaims(null)
+                store.setState("signedInNoClaims")
                 void loadClaims()
 
     })
