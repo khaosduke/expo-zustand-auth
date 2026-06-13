@@ -171,7 +171,7 @@ src/
 ├── features/
 │   └── auth/
 │       ├── AuthStore.ts
-│       ├── authController.ts
+│       ├── AuthEngine.ts
 │       └── ...
 │
 ├── providers/
