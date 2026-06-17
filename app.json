@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "user-man-context",
-    "slug": "user-man-context",
+    "name": "expo-zustand-auth",
+    "slug": "expo-zustand-auth",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "usermancontext",
+    "scheme": "expo-zustand-auth",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.khaosduke.usermancontext"
+      "bundleIdentifier": "com.khaosduke.expo-zustand-auth"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.khaosduke.usermancontext"
+      "package": "com.khaosduke.expo-zustand-auth"
     },
     "web": {
       "output": "static",
@@ -40,7 +40,8 @@
       "expo-font",
       "expo-status-bar",
       "expo-web-browser",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true,
