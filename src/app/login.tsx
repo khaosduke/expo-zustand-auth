@@ -1,4 +1,4 @@
-import Auth from '@/components/Auth'
+import EmailAuth from '@/components/EmailAuth'
 import { Stack } from 'expo-router'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,7 +7,7 @@ export default function LoginScreen() {
     <>
       <Stack.Screen options={{ title: 'Login' }} />
       <View style={styles.container}>
-        <Auth />
+        <EmailAuth />
       </View>  
     </>
   )

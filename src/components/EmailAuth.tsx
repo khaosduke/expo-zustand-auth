@@ -3,7 +3,7 @@ import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { appStyles } from '../styles/styles'
 
-export default function Auth() {
+export default function EmailAuth() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
